@@ -1,0 +1,211 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-neutral-50 text-neutral-800 antialiased;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  :root {
+    color-scheme: light;
+  }
+  .theme-dark {
+    color-scheme: dark;
+  }
+
+  h1, h2, h3 {
+    font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+  }
+}
+
+@layer components {
+  /* ── Badges ─────────────────────────────────────────────── */
+  .badge-lost {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-red-100 text-red-700 tracking-wide;
+  }
+  .badge-found {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-700 tracking-wide;
+  }
+
+  /* ── Buttons ─────────────────────────────────────────────── */
+  .btn-primary {
+    @apply bg-neutral-900 text-white px-5 py-2.5 rounded-xl font-semibold text-sm hover:bg-neutral-950 active:bg-black transition-colors disabled:opacity-60 disabled:cursor-not-allowed;
+  }
+  .btn-outline {
+    @apply border border-neutral-900 text-neutral-900 px-5 py-2.5 rounded-xl font-semibold text-sm hover:bg-neutral-100 active:bg-neutral-200 transition-colors;
+  }
+  .btn-ghost {
+    @apply text-neutral-600 px-4 py-2 rounded-lg text-sm font-medium hover:bg-neutral-100 transition-colors;
+  }
+
+  /* ── Inputs ──────────────────────────────────────────────── */
+  .input-field {
+    @apply w-full border border-neutral-300 rounded-xl px-4 py-2.5 text-sm bg-white
+           focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:border-transparent
+           placeholder:text-neutral-400 transition-shadow;
+  }
+
+  /* ── Cards ───────────────────────────────────────────────── */
+  .card {
+    @apply bg-white rounded-2xl border border-neutral-200 shadow-sm hover:shadow-md transition-shadow;
+  }
+
+  /* ── Section container ───────────────────────────────────── */
+  .section-container {
+    @apply max-w-6xl mx-auto px-4;
+  }
+
+  /* ── Toast animation ─────────────────────────────────────── */
+  .animate-slide-up {
+    animation: slideUp 0.2s ease-out;
+  }
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0);   }
+  }
+
+  /* ── Semantic tokens ─────────────────────────────────────── */
+  .text-primary {
+    @apply text-neutral-900;
+  }
+  .text-muted {
+    @apply text-neutral-500;
+  }
+  .bg-surface {
+    @apply bg-white border border-neutral-200;
+  }
+  .status-success {
+    @apply bg-emerald-100 text-emerald-700 border border-emerald-200;
+  }
+  .status-danger {
+    @apply bg-red-100 text-red-700 border border-red-200;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Dark mode — placed OUTSIDE @layer so it is "unlayered" CSS
+   and beats all Tailwind utility layers in the cascade.
+   Specificity: .theme-dark .X (0,2,0) > .X (0,1,0) utilities.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Body ───────────────────────────────────────────────────── */
+.theme-dark body                    { background-color: rgb(10 10 10); color: rgb(245 245 245); }
+
+/* ── Backgrounds ────────────────────────────────────────────── */
+.theme-dark .bg-white               { background-color: rgb(23 23 23) !important; }
+.theme-dark .bg-neutral-50,
+.theme-dark .bg-neutral-100         { background-color: rgb(38 38 38) !important; }
+.theme-dark .bg-neutral-200         { background-color: rgb(64 64 64) !important; }
+
+/* ── Text ───────────────────────────────────────────────────── */
+.theme-dark .text-neutral-900       { color: rgb(245 245 245) !important; }
+.theme-dark .text-neutral-800       { color: rgb(245 245 245) !important; }
+.theme-dark .text-neutral-700,
+.theme-dark .text-neutral-600       { color: rgb(212 212 212) !important; }
+.theme-dark .text-neutral-500       { color: rgb(163 163 163) !important; }
+.theme-dark .text-neutral-400       { color: rgb(212 212 212) !important; }
+
+/* ── Borders ────────────────────────────────────────────────── */
+.theme-dark .border-neutral-100     { border-color: rgb(38 38 38) !important; }
+.theme-dark .border-neutral-200     { border-color: rgb(64 64 64) !important; }
+.theme-dark .border-neutral-300,
+.theme-dark .border-neutral-400     { border-color: rgb(82 82 82) !important; }
+.theme-dark .border-neutral-900     { border-color: rgb(115 115 115) !important; }
+
+/* ── Focus rings ────────────────────────────────────────────── */
+.theme-dark .ring-neutral-200               { --tw-ring-color: rgb(82 82 82); }
+.theme-dark .focus\:ring-neutral-900:focus,
+.theme-dark .focus-within\:ring-neutral-900:focus-within { --tw-ring-color: rgb(163 163 163 / 0.6); }
+
+/* ── Placeholders ───────────────────────────────────────────── */
+.theme-dark input::placeholder,
+.theme-dark textarea::placeholder   { color: rgb(115 115 115); }
+
+/* ── Component classes (compiled via @apply, so must override explicitly) ── */
+.theme-dark .input-field {
+  background-color: rgb(38 38 38);
+  border-color: rgb(82 82 82);
+  color: rgb(245 245 245);
+}
+.theme-dark .input-field:focus      { --tw-ring-color: rgb(163 163 163 / 0.6); }
+
+.theme-dark .btn-outline {
+  border-color: rgb(115 115 115);
+  color: rgb(245 245 245);
+}
+.theme-dark .btn-outline:hover      { background-color: rgb(38 38 38); }
+
+.theme-dark .btn-ghost              { color: rgb(212 212 212); }
+.theme-dark .btn-ghost:hover        { background-color: rgb(38 38 38); }
+
+.theme-dark .card {
+  background-color: rgb(23 23 23);
+  border-color: rgb(64 64 64);
+}
+
+.theme-dark .bg-surface {
+  background-color: rgb(23 23 23);
+  border-color: rgb(64 64 64);
+}
+
+.theme-dark .text-primary           { color: rgb(245 245 245); }
+.theme-dark .text-muted             { color: rgb(163 163 163); }
+
+/* ── Badges ─────────────────────────────────────────────────── */
+.theme-dark .badge-lost {
+  background-color: rgb(127 29 29 / 0.5);
+  color: rgb(252 165 165);
+}
+.theme-dark .badge-found {
+  background-color: rgb(6 78 59 / 0.5);
+  color: rgb(110 231 183);
+}
+
+/* ── Status tokens ──────────────────────────────────────────── */
+.theme-dark .status-success {
+  background-color: rgb(6 78 59 / 0.4);
+  color: rgb(110 231 183);
+  border-color: rgb(4 120 87 / 0.6);
+}
+.theme-dark .status-danger {
+  background-color: rgb(127 29 29 / 0.4);
+  color: rgb(252 165 165);
+  border-color: rgb(153 27 27 / 0.6);
+}
+
+/* ── Red/error tints ────────────────────────────────────────── */
+.theme-dark .bg-red-50              { background-color: rgb(127 29 29 / 0.25) !important; }
+.theme-dark .bg-red-100             { background-color: rgb(127 29 29 / 0.35) !important; }
+.theme-dark .text-red-600,
+.theme-dark .text-red-700           { color: rgb(252 165 165) !important; }
+.theme-dark .border-red-200         { border-color: rgb(153 27 27 / 0.5) !important; }
+
+/* ── Emerald tints ──────────────────────────────────────────── */
+.theme-dark .bg-emerald-50          { background-color: rgb(6 78 59 / 0.25) !important; }
+.theme-dark .bg-emerald-100         { background-color: rgb(6 78 59 / 0.35) !important; }
+.theme-dark .text-emerald-700       { color: rgb(110 231 183) !important; }
+.theme-dark .text-emerald-500       { color: rgb(110 231 183) !important; }
+.theme-dark .border-emerald-200     { border-color: rgb(4 120 87 / 0.5) !important; }
+.theme-dark .border-emerald-400     { border-color: rgb(52 211 153 / 0.4) !important; }
+
+/* ── Select ─────────────────────────────────────────────────── */
+.theme-dark select {
+  background-color: rgb(38 38 38);
+  color: rgb(245 245 245);
+  border-color: rgb(82 82 82);
+}
+.theme-dark select option           { background-color: rgb(23 23 23); color: rgb(229 229 229); }
+
+/* ── Amber tints (SafetyNotice) ─────────────────────────────── */
+.theme-dark .bg-amber-50            { background-color: rgb(120 53 15 / 0.25) !important; }
+.theme-dark .border-amber-200       { border-color: rgb(180 83 9 / 0.4) !important; }
+.theme-dark .text-amber-800         { color: rgb(253 230 138) !important; }
+.theme-dark .text-amber-700         { color: rgb(252 211 77) !important; }
+
+/* ── Hover utility variants ──────────────────────────────────── */
+.theme-dark .hover\:bg-neutral-50:hover,
+.theme-dark .hover\:bg-neutral-100:hover  { background-color: rgb(38 38 38) !important; }
+.theme-dark .hover\:bg-neutral-200:hover  { background-color: rgb(64 64 64) !important; }
