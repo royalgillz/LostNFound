@@ -216,13 +216,13 @@ export default function Search() {
       setLoading(true);
       setShowMore(false);
       try {
+        const showResolved = p.get('showResolved') === 'true';
+        if (!showResolved) p.set('resolved', 'false');
         const res  = await fetch(`/api/listing/get?${p.toString()}`);
         const data = await res.json();
-        const showResolved = p.get('showResolved') === 'true';
-        const items = (data.items || []).filter((l) => showResolved || !l.resolved);
         setShowMore(Boolean(data.hasMore));
-        setListings(items);
-        setTotal(data.total || items.length);
+        setListings(data.items || []);
+        setTotal(data.total || 0);
       } catch {
         setListings([]);
         setTotal(0);
@@ -269,12 +269,12 @@ export default function Search() {
     const p = new URLSearchParams(location.search);
     p.set('startIndex', listings.length);
     try {
+      const showResolved = p.get('showResolved') === 'true';
+      if (!showResolved) p.set('resolved', 'false');
       const res  = await fetch(`/api/listing/get?${p.toString()}`);
       const data = await res.json();
-      const showResolved = p.get('showResolved') === 'true';
-      const items = (data.items || []).filter((l) => showResolved || !l.resolved);
       setShowMore(Boolean(data.hasMore));
-      setListings((prev) => [...prev, ...items]);
+      setListings((prev) => [...prev, ...(data.items || [])]);
       setTotal(data.total || 0);
       trackEvent('search_load_more', { loaded: items.length });
     } catch {
