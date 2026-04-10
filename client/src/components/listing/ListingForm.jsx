@@ -16,10 +16,12 @@ const TYPE_OPTIONS = [
 ];
 
 const CATEGORIES = [
-  { id: 'clothing', label: 'Clothing'         },
-  { id: 'college',  label: 'College Supplies' },
-  { id: 'gadgets',  label: 'Gadgets'          },
-  { id: 'other',    label: 'Other'            },
+  { id: 'clothing',    label: 'Clothing'         },
+  { id: 'college',     label: 'College Supplies' },
+  { id: 'gadgets',     label: 'Gadgets'          },
+  { id: 'books',       label: 'Books'            },
+  { id: 'accessories', label: 'Accessories'      },
+  { id: 'other',       label: 'Other'            },
 ];
 
 const CAMPUS_LOCATIONS = [
@@ -44,6 +46,8 @@ export const DEFAULT_FORM = {
   clothing:    false,
   college:     false,
   gadgets:     false,
+  books:       false,
+  accessories: false,
   other:       false,
   date:        toDateInputValue(new Date()),
   website:     '',
@@ -148,7 +152,7 @@ export default function ListingForm({
       if (!formData.address?.trim()) return 'Enter location details.';
     }
     if (step === 3) {
-      const hasCategory = ['clothing', 'college', 'gadgets', 'other'].some((key) => formData[key]);
+      const hasCategory = ['clothing', 'college', 'gadgets', 'books', 'accessories', 'other'].some((key) => formData[key]);
       if (!hasCategory) return 'Select at least one category.';
     }
     if (step === 4 && formData.imageUrls.length < 1) {

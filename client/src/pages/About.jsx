@@ -6,10 +6,12 @@ import HowItWorks from '../components/ui/HowItWorks';
 import { COPY } from '../content/copy';
 
 const CATEGORIES = [
-  { label: 'Gadgets',          desc: 'Phones, laptops, earphones, chargers' },
-  { label: 'Clothing',         desc: 'Jackets, hoodies, bags, accessories'  },
-  { label: 'College Supplies', desc: 'ID cards, notebooks, stationery'      },
-  { label: 'Other',            desc: 'Keys, wallets, water bottles and more' },
+  { label: 'Gadgets',          desc: 'Phones, laptops, earphones, chargers'         },
+  { label: 'Clothing',         desc: 'Jackets, hoodies, shoes, sportswear'          },
+  { label: 'College Supplies', desc: 'ID cards, calculators, stationery, lab coats' },
+  { label: 'Books',            desc: 'Textbooks, notebooks, reference material'     },
+  { label: 'Accessories',      desc: 'Wallets, watches, sunglasses, keys, purses'   },
+  { label: 'Other',            desc: 'Water bottles, umbrellas, lunch boxes and more' },
 ];
 
 const FAQS = [

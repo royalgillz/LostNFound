@@ -4,10 +4,12 @@ import { timeAgo } from '../../utils/timeAgo';
 import StatusBadge from '../ui/StatusBadge';
 
 const CATEGORY_LABELS = {
-  clothing: 'Clothing',
-  college:  'College Supplies',
-  gadgets:  'Gadgets',
-  other:    'Other',
+  clothing:    'Clothing',
+  college:     'College Supplies',
+  gadgets:     'Gadgets',
+  books:       'Books',
+  accessories: 'Accessories',
+  other:       'Other',
 };
 
 export default function ListingItem({ listing }) {
