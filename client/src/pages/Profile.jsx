@@ -153,8 +153,9 @@ export default function Profile() {
     }
   };
 
-  const lostCount  = userListings.filter((l) => l.type === 'lost').length;
-  const foundCount = userListings.filter((l) => l.type === 'found').length;
+  const lostCount     = userListings.filter((l) => l.type === 'lost').length;
+  const foundCount    = userListings.filter((l) => l.type === 'found').length;
+  const resolvedCount = userListings.filter((l) => l.resolved).length;
   const visibleListings = userListings.filter((listing) => {
     if (listingView === 'active')   return !listing.resolved;
     if (listingView === 'resolved') return listing.resolved;
@@ -162,7 +163,7 @@ export default function Profile() {
   });
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-8 flex flex-col gap-8">
+    <div className="max-w-4xl mx-auto px-4 py-8 flex flex-col gap-8">
 
       {/* Confirm Modals */}
       <ConfirmModal
@@ -187,20 +188,20 @@ export default function Profile() {
       />
 
       {/* ── Profile header ────────────────────────────────────────────────── */}
-      <div className="flex flex-col sm:flex-row items-center gap-6">
+      <div className="bg-white border border-neutral-200 rounded-2xl px-6 py-6 flex flex-col sm:flex-row items-center gap-5">
         <div className="relative flex-shrink-0">
           <img
             src={avatarUrl}
             alt="avatar"
-            className="w-24 h-24 rounded-full object-cover ring-4 ring-neutral-200"
+            className="w-20 h-20 rounded-full object-cover ring-4 ring-neutral-100"
           />
           <button
             type="button"
             onClick={() => fileRef.current.click()}
-            className="absolute bottom-0 right-0 w-8 h-8 bg-neutral-900 text-white rounded-full flex items-center justify-center hover:bg-neutral-950 transition-colors shadow"
+            className="absolute bottom-0 right-0 w-7 h-7 bg-neutral-900 text-white rounded-full flex items-center justify-center hover:bg-neutral-950 transition-colors shadow"
             aria-label="Change avatar"
           >
-            <FaCamera size={12} />
+            <FaCamera size={11} />
           </button>
           <input id="profileImage" type="file" ref={fileRef} hidden accept="image/*" onChange={handleAvatarChange} />
         </div>
@@ -209,14 +210,14 @@ export default function Profile() {
           <h1 className="text-xl font-bold text-neutral-800">{currentUser.username}</h1>
           <p className="text-sm text-neutral-500">{currentUser.email}</p>
           {avatarPerc > 0 && avatarPerc < 100 && (
-            <p className="text-xs text-neutral-600 mt-1">Uploading {avatarPerc}%…</p>
+            <p className="text-xs text-neutral-500 mt-1">Uploading {avatarPerc}%…</p>
           )}
           {avatarError && <p className="text-xs text-red-500 mt-1">{avatarError}</p>}
         </div>
 
         <Link
           to="/create-listing"
-          className="sm:ml-auto flex items-center gap-2 bg-neutral-900 text-white px-4 py-2 rounded-xl text-sm font-medium hover:bg-neutral-950 transition-colors"
+          className="sm:ml-auto flex items-center gap-2 bg-neutral-900 text-white px-4 py-2 rounded-xl text-sm font-medium hover:bg-neutral-950 transition-colors flex-shrink-0"
         >
           <FaPlus size={11} /> Report Item
         </Link>
@@ -224,11 +225,12 @@ export default function Profile() {
 
       {/* ── Stats strip ───────────────────────────────────────────────────── */}
       {!listingsLoading && (
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-4 gap-3">
           {[
-            { label: 'Total', value: userListings.length },
-            { label: 'Lost',  value: lostCount  },
-            { label: 'Found', value: foundCount  },
+            { label: 'Total',    value: userListings.length },
+            { label: 'Lost',     value: lostCount     },
+            { label: 'Found',    value: foundCount    },
+            { label: 'Resolved', value: resolvedCount },
           ].map(({ label, value }) => (
             <div key={label} className="text-center bg-white border border-neutral-200 rounded-2xl py-4">
               <p className="text-2xl font-bold text-neutral-900">{value}</p>
@@ -330,29 +332,10 @@ export default function Profile() {
                     )}
                   </div>
 
-                  <div className="flex flex-col items-end gap-1.5 flex-shrink-0">
-                    <div className="flex items-center gap-1">
-                      <Link to={`/listing/${listing._id}`}>
-                        <button className="p-2 text-neutral-500 hover:text-neutral-900 hover:bg-neutral-100 rounded-lg transition-colors" aria-label="View listing">
-                          <FaEye size={14} />
-                        </button>
-                      </Link>
-                      <Link to={`/update-listing/${listing._id}`}>
-                        <button className="p-2 text-neutral-500 hover:text-neutral-900 hover:bg-neutral-100 rounded-lg transition-colors" aria-label="Edit listing">
-                          <FaEdit size={14} />
-                        </button>
-                      </Link>
-                      <button
-                        onClick={() => setDeletingListingId(listing._id)}
-                        className="p-2 text-neutral-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                        aria-label="Delete listing"
-                      >
-                        <FaTrash size={14} />
-                      </button>
-                    </div>
+                  <div className="flex items-center gap-1 flex-shrink-0">
                     <button
                       onClick={() => handleResolveToggle(listing._id)}
-                      className={`flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-lg border transition-colors ${
+                      className={`flex items-center gap-1.5 text-xs font-medium px-2.5 py-1.5 rounded-lg border transition-colors mr-1 ${
                         listing.resolved
                           ? 'border-neutral-300 text-neutral-600 hover:bg-neutral-50'
                           : 'border-emerald-400 text-emerald-700 hover:bg-emerald-50'
@@ -360,6 +343,23 @@ export default function Profile() {
                     >
                       <FaCheckCircle size={10} />
                       {listing.resolved ? 'Reopen' : 'Resolve'}
+                    </button>
+                    <Link to={`/listing/${listing._id}`}>
+                      <button className="p-2 text-neutral-400 hover:text-neutral-900 hover:bg-neutral-100 rounded-lg transition-colors" aria-label="View listing">
+                        <FaEye size={14} />
+                      </button>
+                    </Link>
+                    <Link to={`/update-listing/${listing._id}`}>
+                      <button className="p-2 text-neutral-400 hover:text-neutral-900 hover:bg-neutral-100 rounded-lg transition-colors" aria-label="Edit listing">
+                        <FaEdit size={14} />
+                      </button>
+                    </Link>
+                    <button
+                      onClick={() => setDeletingListingId(listing._id)}
+                      className="p-2 text-neutral-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                      aria-label="Delete listing"
+                    >
+                      <FaTrash size={14} />
                     </button>
                   </div>
                 </div>
