@@ -145,6 +145,10 @@ export const getListings = async (req, res, next) => {
       ...categoryQuery,
     };
 
+    // resolved filter — 'true' = only resolved, 'false' = only unresolved, omit = all
+    if (req.query.resolved === 'true')  query.resolved = true;
+    if (req.query.resolved === 'false') query.resolved = false;
+
     const total = await Listing.countDocuments(query);
 
     let listings = await Listing.find(query)

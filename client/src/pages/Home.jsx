@@ -30,18 +30,24 @@ export default function Home() {
   const [loading, setLoading]       = useState(true);
   const [fetchError, setFetchError] = useState(false);
   const [lastUpdated, setLastUpdated] = useState(null);
+  const [totalCount, setTotalCount]   = useState(0);
+  const [resolvedCount, setResolvedCount] = useState(0);
 
   useEffect(() => {
     const fetchAll = async () => {
       setLoading(true);
       setFetchError(false);
       try {
-        const results = await Promise.all(
-          TABS.map((t) => fetch(t.endpoint).then((r) => r.json()))
-        );
+        const [tabResults, totalRes, resolvedRes] = await Promise.all([
+          Promise.all(TABS.map((t) => fetch(t.endpoint).then((r) => r.json()))),
+          fetch('/api/listing/get?limit=1').then((r) => r.json()),
+          fetch('/api/listing/get?resolved=true&limit=1').then((r) => r.json()),
+        ]);
         const data = {};
-        TABS.forEach((t, i) => { data[t.label] = results[i].items || []; });
+        TABS.forEach((t, i) => { data[t.label] = tabResults[i].items || []; });
         setTabData(data);
+        setTotalCount(totalRes.total || 0);
+        setResolvedCount(resolvedRes.total || 0);
         setLastUpdated(new Date());
       } catch {
         setFetchError(true);
@@ -59,13 +65,11 @@ export default function Home() {
   };
 
   const activeListings = tabData[activeTab] || [];
-  const allListings = tabData.All || [];
-  const resolvedCount = allListings.filter((item) => item.resolved).length;
   const stats = [
-    { value: allListings.length, label: 'Active feed items' },
+    { value: totalCount,    label: 'Listings posted' },
     { value: resolvedCount, label: 'Marked resolved' },
-    { value: 4, label: 'Categories tracked' },
-    { value: 'TIET', label: 'Campus scope' },
+    { value: 4,             label: 'Categories tracked' },
+    { value: 'TIET',        label: 'Campus scope' },
   ];
 
   return (
