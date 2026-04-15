@@ -120,10 +120,12 @@ export const getListings = async (req, res, next) => {
     // category filters — only apply when explicitly set to true
     // (keeps legacy docs with undefined category fields visible)
     const categoryQuery = {};
-    if (req.query.gadgets === 'true') categoryQuery.gadgets = true;
-    if (req.query.college === 'true') categoryQuery.college = true;
-    if (req.query.clothing === 'true') categoryQuery.clothing = true;
-    if (req.query.other === 'true') categoryQuery.other = true;
+    if (req.query.gadgets      === 'true') categoryQuery.gadgets      = true;
+    if (req.query.college      === 'true') categoryQuery.college      = true;
+    if (req.query.clothing     === 'true') categoryQuery.clothing     = true;
+    if (req.query.books        === 'true') categoryQuery.books        = true;
+    if (req.query.accessories  === 'true') categoryQuery.accessories  = true;
+    if (req.query.other        === 'true') categoryQuery.other        = true;
 
     let type = req.query.type;
     if (!type || type === 'all') {

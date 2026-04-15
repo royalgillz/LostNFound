@@ -67,6 +67,7 @@ const LISTINGS = [
       'Brown bi-fold leather wallet with a college bus pass, Axis Bank debit card, and around ₹300 cash inside. Found on a bench near the sports ground. Handing over to security if unclaimed.',
     address: 'Sports Ground, Near Seating Area',
     type: 'found',
+    accessories: true,
     imageUrls: [RAW('wallet.png')],
   },
 
@@ -88,6 +89,7 @@ const LISTINGS = [
       'Black rectangular reading glasses in a brown faux-leather case. Found on a cafeteria table during lunch hours. Power seems mild. Please claim before they are handed in.',
     address: 'Cafeteria, Main Food Court',
     type: 'found',
+    accessories: true,
     imageUrls: [RAW('glasses.png')],
     resolved: true,
   },
@@ -108,6 +110,7 @@ const LISTINGS = [
       'Fastrack analog watch with a brown leather strap and a round black dial. Lost during the sports session. Has a small monogram "PK" engraved on the case back.',
     address: 'Basketball Court, Sports Complex',
     type: 'lost',
+    accessories: true,
     imageUrls: [RAW('watch.png')],
   },
 
@@ -182,6 +185,7 @@ const LISTINGS = [
       'A bunch of 4 keys on a red carabiner keychain. One key has a TIET hostel room tag (Room 114). Found on the library steps in the morning. Please contact to collect.',
     address: 'Main Library, Front Steps',
     type: 'found',
+    accessories: true,
     imageUrls: [RAW('keys.png')],
   },
   {
@@ -191,6 +195,7 @@ const LISTINGS = [
       'Small black faux-leather purse with a gold clasp. Contains a metro card and some coins. No ID inside. Found on a bench in the Admin Block corridor during office hours.',
     address: 'Admin Block, Ground Floor Corridor',
     type: 'found',
+    accessories: true,
     imageUrls: [RAW('purse.png')],
   },
   {
@@ -243,10 +248,20 @@ async function seed() {
     createdUsers.forEach((u) => console.log(`  ${u.username} <${u.email}>`));
     console.log();
 
-    // Create listings
+    // Create listings — fill missing required booleans with false
     const docs = LISTINGS.map((l) => {
       const { userIndex, ...rest } = l;
-      return { ...rest, userRef: createdUsers[userIndex]._id.toString() };
+      return {
+        clothing:    false,
+        college:     false,
+        gadgets:     false,
+        books:       false,
+        accessories: false,
+        other:       false,
+        resolved:    false,
+        ...rest,
+        userRef: createdUsers[userIndex]._id.toString(),
+      };
     });
 
     const inserted = await Listing.insertMany(docs);

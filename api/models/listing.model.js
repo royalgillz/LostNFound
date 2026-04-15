@@ -19,10 +19,12 @@ const listingSchema = new mongoose.Schema(
       required: true,
     },
     // categories
-    clothing: { type: Boolean, required: true },
-    college:  { type: Boolean, required: true },
-    gadgets:  { type: Boolean, required: true },
-    other:    { type: Boolean, default: false },
+    clothing:    { type: Boolean, required: true },
+    college:     { type: Boolean, required: true },
+    gadgets:     { type: Boolean, required: true },
+    books:       { type: Boolean, default: false },
+    accessories: { type: Boolean, default: false },
+    other:       { type: Boolean, default: false },
     // when the item was actually lost / found (user-supplied)
     date: {
       type: Date,

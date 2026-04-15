@@ -16,10 +16,12 @@ import { COPY } from '../content/copy';
 import StatusBadge from '../components/ui/StatusBadge';
 
 const CATEGORY_LABELS = {
-  clothing: 'Clothing',
-  college:  'College Supplies',
-  gadgets:  'Gadgets',
-  other:    'Other',
+  clothing:    'Clothing',
+  college:     'College Supplies',
+  gadgets:     'Gadgets',
+  books:       'Books',
+  accessories: 'Accessories',
+  other:       'Other',
 };
 
 export default function Listing() {
@@ -52,7 +54,7 @@ export default function Listing() {
           .then((u) => { if (!u.success === false) setPoster(u); })
           .catch(() => {});
         const similarParams = new URLSearchParams({ type: data.type, limit: '8' });
-        const categoryKey = ['clothing', 'college', 'gadgets', 'other'].find((key) => data[key]);
+        const categoryKey = ['clothing', 'college', 'gadgets', 'books', 'accessories', 'other'].find((key) => data[key]);
         if (categoryKey) similarParams.set(categoryKey, 'true');
         similarParams.set('relevance', 'true');
         similarParams.set('searchTerm', data.name || '');
