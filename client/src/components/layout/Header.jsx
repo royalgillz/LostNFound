@@ -6,7 +6,8 @@ import { MdOutlineDarkMode, MdOutlineLightMode } from "react-icons/md";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import SideDrawer from "./SideDrawer";
-import logo from "../../assets/logo.png";
+import logo    from "../../assets/logo.png";
+import logoInv from "../../assets/logo-inv.png";
 import { getNotifications, trackEvent } from "../../utils/analytics";
 
 const NAV_LINKS = [
@@ -78,7 +79,7 @@ const Header = () => {
 
           {/* Logo */}
           <Link to="/" id="header_home" className="flex-shrink-0">
-            <img src={logo} alt="LostNFound" className="h-9" />
+            <img src={darkMode ? logoInv : logo} alt="LostNFound" className="h-9" />
           </Link>
 
           {/* Search bar */}

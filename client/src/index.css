@@ -91,6 +91,11 @@
    Specificity: .theme-dark .X (0,2,0) > .X (0,1,0) utilities.
    ═══════════════════════════════════════════════════════════════ */
 
+/* ── Logo swap ──────────────────────────────────────────────── */
+.logo-dark                          { display: none; }
+.theme-dark .logo-light             { display: none; }
+.theme-dark .logo-dark              { display: block; }
+
 /* ── Body ───────────────────────────────────────────────────── */
 .theme-dark body                    { background-color: rgb(10 10 10); color: rgb(245 245 245); }
 
